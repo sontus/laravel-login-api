@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
@@ -12,8 +11,8 @@ class UserController extends Controller
     private $status_code    =        200;
     public function userSignUp(Request $request) {
         $validator              =        Validator::make($request->all(), [
-            "fname"              =>         "required",
-            "lname"              =>         "required",
+            "fname"              =>          "required",
+            "lname"              =>          "required",
             "email"             =>          "required|email",
             "password"          =>          "required",
         ]);
@@ -25,17 +24,17 @@ class UserController extends Controller
 
 
         $userDataArray          =       array(
-            "fname"             =>              $request->fname,
+            "fname"             =>          $request->fname,
             "lname"             =>          $request->lname,
             "email"             =>          $request->email,
-            "password"          =>          Hash::make($request->password)
+            "password"          =>          md5($request->password),
         );
 
-        // $user_status            =           User::where("email", $request->email)->first();
+        $user_status            =           User::where("email", $request->email)->first();
 
-        // if(!is_null($user_status)) {
-        //    return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! email already registered"]);
-        // }
+        if(!is_null($user_status)) {
+           return response()->json(["status" => "failed", "success" => false, "message" => "Whoops! email already registered"]);
+        }
 
         $user                   =           User::create($userDataArray);
 

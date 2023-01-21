@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\BooksController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,9 +24,8 @@ use App\Http\Controllers\UserController;
 
 
 Route::post('/user-signup', [UserController::class, 'userSignUp']);
+Route::post('/user-login', [UserController::class, 'userLogin']);
+Route::post('user/{email}', [UserController::class, 'userDetail']);
+Route::get('book-list', [BooksController::class, 'index']);
 
-// Route::post("user-signup", "UserController@userSignUp");
 
-Route::post("user-login", "UserController@userLogin");
-
-Route::get("user/{email}", "UserController@userDetail");
